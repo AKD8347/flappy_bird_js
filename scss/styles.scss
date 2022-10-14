@@ -13,8 +13,10 @@ body {
 
   &__title {
     background-image: url('/img/flappy_bird_bg.png');
+    background-position: 0 210px;
     padding: 10px 0;
     margin: 0;
+    width: 100%;
   }
 }
 
@@ -22,5 +24,4 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 8px 6px;
-  background: #5EE270;
 }

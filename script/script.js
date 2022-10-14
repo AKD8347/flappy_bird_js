@@ -1,56 +1,54 @@
-//поле игры
-const gameField = document.getElementById("canvas");
-const gameFieldContext = gameField.getContext("2d");
-//Создаем обьекты игры
+const canvas = document.getElementById("canvas");
+const context = canvas.getContext("2d");
+
 const bird = new Image();
-const background = new Image();
-const flor = new Image();
+const bg = new Image();
+const fg = new Image();
 const pipeUp = new Image();
 const pipeBottom = new Image();
-//указываем путь до изображения
-bird.src = "img/bird.png";
-background.src = "img/bg.png";
-flor.src = "img/fg.png";
-pipeUp.src = "img/pipeUp.png";
-pipeBottom.src = "img/pipeBottom.png";
 
-console.log(bird);
+bird.src = "/img/flappy_bird_bird.png";
+bg.src = "/img/flappy_bird_bg.png";
+fg.src = "/img/flappy_bird_fg.png";
+pipeUp.src = "/img/flappy_bird_pipeUp.png";
+pipeBottom.src = "/img/flappy_bird_pipeBottom.png";
 
-var gap = 90;
+let gap = 90;
 
 // При нажатии на какую-либо кнопку
-document.addEventListener("keydown", moveUp);
+document.addEventListener("mousedown", moveUp);
 
 function moveUp() {
-    yPos -= 25;
+    yPos -= 40;
+    console.log(yPos)
 }
 
 // Создание блоков
-var pipe = [];
+let pipe = [];
 
 pipe[0] = {
-    x : gameField.width,
+    x : canvas.width,
     y : 0
 }
 
-var score = 0;
+const score = 0;
 // Позиция птички
 var xPos = 10;
 var yPos = 150;
 var grav = 1.5;
 
 function draw() {
-    gameFieldContext.drawImage(background, 0, 0);
+    context.drawImage(bg, 0, 0);
 
-    for(var i = 0; i < pipe.length; i++) {
-        gameFieldContext.drawImage(pipeUp, pipe[i].x, pipe[i].y);
-        gameFieldContext.drawImage(pipeBottom, pipe[i].x, pipe[i].y + pipeUp.height + gap);
+    for(let i = 0; i < pipe.length; i++) {
+        context.drawImage(pipeUp, pipe[i].x, pipe[i].y);
+        context.drawImage(pipeBottom, pipe[i].x, pipe[i].y + pipeUp.height + gap);
 
         pipe[i].x--;
 
         if(pipe[i].x == 125) {
             pipe.push({
-                x : gameField.width,
+                x : canvas.width,
                 y : Math.floor(Math.random() * pipeUp.height) - pipeUp.height
             });
         }
@@ -59,23 +57,24 @@ function draw() {
         if(xPos + bird.width >= pipe[i].x
             && xPos <= pipe[i].x + pipeUp.width
             && (yPos <= pipe[i].y + pipeUp.height
-                || yPos + bird.height >= pipe[i].y + pipeUp.height + gap) || yPos + bird.height >=gameField.height - flor.height) {
+                || yPos + bird.height >= pipe[i].y + pipeUp.height + gap) || yPos + bird.height >= canvas.height - fg.height) {
             location.reload(); // Перезагрузка страницы
         }
 
         if(pipe[i].x == 5) {
             score++;
+            // score_audio.play();
         }
     }
 
-    gameFieldContext.drawImage(flor, 0, gameField.height - flor.height);
-    gameFieldContext.drawImage(bird, xPos, yPos);
+    // context.drawImage(fg, 0, canvas.height - fg.height);
+    context.drawImage(bird, xPos, yPos);
 
     yPos += grav;
 
-    gameFieldContext.fillStyle = "#000";
-    gameFieldContext.font = "24px Verdana";
-    gameFieldContext.fillText("Счет: " + score, 10, gameField.height - 20);
+    // context.fillStyle = "#000";
+    // context.font = "24px Verdana";
+    // context.fillText("Счет: " + score, 10, canvas.height - 20);
 
     requestAnimationFrame(draw);
 }
