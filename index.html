@@ -9,13 +9,27 @@
 </head>
 <body>
 <header class="header">
-
     <h1 class="header__title">Flappy bird</h1>
     <div class="score-container">
-
+        <div class="score-container__player">
+            <span>Счет:</span>
+            <span id="result">0</span>
+        </div>
+        <div class="score-container__player">
+            <span>Рекорд:</span>
+            <span id="total"></span>
+        </div>
     </div>
 </header>
-<canvas id="canvas" width="431" height="512"></canvas>
+<div class="box">
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <div class="box__restart box__restart--active">
+        <button class="box__btn" id="restart">заново</button>
+    </div>
+</div>
+
+
+
 
 
 <script src="script/script.js"></script>
